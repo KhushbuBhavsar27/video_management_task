@@ -45,7 +45,7 @@ class VideoUpdate(APIView):
         serializer = vd_Serializer(video, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return redirect('video-list')  # Redirect to the video list after successful update
+            return redirect('video-list')  
         return render(request, 'videos/vd_update.html', {'video': video,'serializer': serializer})
 
           
