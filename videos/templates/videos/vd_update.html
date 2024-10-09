@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Video</title>
+</head>
+<body>
+    <h1>Update Video: {{ video.vd_name }}</h1>
+
+    <!-- Video Update Form -->
+    <form method="POST" enctype="multipart/form-data" action="{% url 'video-update' video.id %}">
+        {% csrf_token %}
+        <label for="vd_name">Video Name:</label>
+        <input type="text" name="vd_name" value="{{ video.vd_name }}" required><br><br>
+
+        <label for="description">Description:</label>
+        <textarea name="description" required>{{ video.description }}</textarea><br><br>
+
+        <label for="vd_file">Change Video File:</label>
+        <input type="file" name="vd_file"><br><br>
+
+        <button type="submit">Update Video</button>
+    </form>
+
+    <!-- Link to go back to the video list -->
+    <a href="{% url 'video-list' %}">Back to Video List</a>
+</body>
+</html>

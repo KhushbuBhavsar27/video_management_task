@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Management</title>
+</head>
+<body>
+
+    <h1>Video List</h1>
+
+    <!-- Video Upload Form -->
+    <form method="POST" enctype="multipart/form-data" action="{% url 'video-upload' %}">
+        {% csrf_token %}
+        <label for="vd_name">Video Name:</label>
+        <input type="text" name="vd_name" required><br><br>
+
+        <label for="description">Description:</label>
+        <textarea name="description" required></textarea><br><br>
+
+        <label for="vd_file">Upload File:</label>
+        <input type="file" name="vd_file" required><br><br>
+
+        <button type="submit">Upload Video</button>
+    </form>
+
+    <!-- Video Search Form -->
+    <form method="GET" action="{% url 'video-search' %}">
+        <input type="text" name="title" placeholder="Search by Title">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Video List Table -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Video Name</th>
+                <th>Description</th>
+                <th>File</th>
+                <th>Upload Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for video in videos %}
+            <tr>
+                <td>{{ video.id }}</td>
+                <td>{{ video.vd_name }}</td>
+                <td>{{ video.description }}</td>
+                <td><a href="{{ video.vd_file.url }}">View Video</a></td>
+                <td>{{ video.upload_time }}</td>
+                <td>
+                    <!-- Update and Delete Actions -->
+                    <form method="GET" action="{% url 'video-update' video.id %}">
+                        <button type="submit">Update</button>
+                    </form>
+                    <form method="POST" action="{% url 'video-delete' video.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No videos available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
